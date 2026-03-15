@@ -41,6 +41,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 body,
@@ -75,6 +76,7 @@ summary:focus-visible {
 
 #root {
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .app-shell {
@@ -2189,6 +2191,8 @@ summary {
   .hero-card,
   .question-card,
   .detail-card {
+    width: 100%;
+    max-width: 100%;
     padding: 16px;
     border-radius: 22px;
   }
@@ -2250,13 +2254,17 @@ summary {
 
   .quiz-shell .card-header,
   .future-shell .card-header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .progress-cluster {
-    align-items: flex-end;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
   }
 
   .progress-cluster strong {
@@ -2319,12 +2327,12 @@ summary {
   }
 
   .answer-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 10px;
   }
 
   .answer-grid .answer-button:nth-child(3) {
-    grid-column: 1 / -1;
+    grid-column: auto;
   }
 
   .answer-button {
@@ -2351,7 +2359,7 @@ summary {
 
   .question-actions {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     align-items: stretch;
     gap: 10px;
   }
@@ -2361,12 +2369,16 @@ summary {
   }
 
   .question-actions > .primary-button {
-    grid-column: 1 / -1;
+    grid-column: auto;
   }
 
   .inline-actions {
     width: 100%;
-    justify-content: space-between;
+    justify-content: stretch;
+  }
+
+  .inline-actions > * {
+    width: 100%;
   }
 
   .future-scenario-panel {
