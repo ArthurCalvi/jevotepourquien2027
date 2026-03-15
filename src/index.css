@@ -41,7 +41,6 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 body,
@@ -76,7 +75,6 @@ summary:focus-visible {
 
 #root {
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 .app-shell {
@@ -711,6 +709,16 @@ summary:focus-visible {
   padding-right: 6px;
 }
 
+.question-context-scroll > *,
+.question-context-scroll > * > *,
+.question-context-column .guide-panel-header > *,
+.question-context-column .question-visual-header > *,
+.question-context-column .question-bar-top > *,
+.question-context-column .question-timeline-item > *,
+.question-timeline-body {
+  min-width: 0;
+}
+
 .question-context-scroll::-webkit-scrollbar {
   width: 10px;
 }
@@ -973,9 +981,25 @@ summary:focus-visible {
   gap: 12px;
 }
 
+.guide-panel-header,
+.question-visual-header,
+.question-bar-top,
+.question-timeline-item {
+  flex-wrap: wrap;
+}
+
 .guide-panel strong,
 .policy-column strong {
   color: var(--ink);
+}
+
+.question-context-column p,
+.question-context-column small,
+.question-context-column strong,
+.question-context-column h4,
+.question-context-column a,
+.question-timeline-body {
+  overflow-wrap: anywhere;
 }
 
 .policy-column {
@@ -1067,6 +1091,54 @@ summary:focus-visible {
 .question-context-column .guide-disclosure-content {
   gap: 10px;
   padding: 0 16px 16px;
+}
+
+.question-context-disclosure {
+  display: grid;
+  gap: 0;
+  border-radius: 18px;
+  border: 1px solid rgba(27, 39, 64, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.question-context-disclosure summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 16px;
+}
+
+.question-context-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.question-context-disclosure summary::after {
+  content: '+';
+  color: var(--accent-deep);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.question-context-disclosure[open] summary::after {
+  content: '−';
+}
+
+.question-context-summary {
+  display: grid;
+  gap: 4px;
+}
+
+.question-context-summary .context-column-label {
+  margin-bottom: 0;
+}
+
+.question-context-summary-text {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 .context-tiles-grid,
@@ -2067,6 +2139,10 @@ summary {
 }
 
 @media (max-width: 1100px) {
+  .app-shell {
+    overflow: visible;
+  }
+
   .content-grid,
   .hero-card,
   .results-layout,
@@ -2108,6 +2184,8 @@ summary {
   .question-context-column {
     position: static;
     overflow: visible;
+    width: 100%;
+    min-height: auto;
     padding-right: 0;
   }
 
@@ -2169,6 +2247,8 @@ summary {
   .question-context-column {
     border-left: 0;
     padding-left: 0;
+    padding-top: 14px;
+    border-top: 1px solid rgba(27, 39, 64, 0.08);
   }
 
   .question-notes {
@@ -2177,14 +2257,23 @@ summary {
 
   .visual-card-header,
   .map-legend,
-  .future-scenario-header {
+  .future-scenario-header,
+  .guide-panel-header,
+  .question-visual-header,
+  .question-bar-top,
+  .question-timeline-item {
     flex-direction: column;
+    align-items: flex-start;
   }
 }
 
 @media (max-width: 640px) {
   .app-shell {
     padding: 18px 12px 30px;
+  }
+
+  .ambient {
+    display: none;
   }
 
   .card,
@@ -2326,6 +2415,36 @@ summary {
     padding: 14px;
   }
 
+  .question-context-column {
+    gap: 10px;
+    padding-top: 12px;
+  }
+
+  .question-context-disclosure {
+    border-radius: 16px;
+  }
+
+  .question-context-disclosure summary {
+    padding: 12px 14px;
+  }
+
+  .question-context-summary-text,
+  .question-context-column .question-context-overview p,
+  .question-context-column .question-context-overview small,
+  .question-context-column .guide-summary-tile p,
+  .question-context-column .guide-summary-tile small,
+  .question-context-column .guide-panel p,
+  .question-context-column .question-visual-card p,
+  .question-context-column .question-visual-card .muted-small {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .question-context-scroll {
+    gap: 14px;
+    padding: 0 14px 14px;
+  }
+
   .answer-grid {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -2379,6 +2498,20 @@ summary {
 
   .inline-actions > * {
     width: 100%;
+  }
+
+  .question-timeline-item::before,
+  .question-timeline-year::after {
+    display: none;
+  }
+
+  .question-timeline-year {
+    min-width: 0;
+    padding-top: 0;
+  }
+
+  .question-timeline {
+    gap: 10px;
   }
 
   .future-scenario-panel {

@@ -227,6 +227,45 @@ function renderGlossaryText(text: string, glossary: GlossaryTerm[]): ReactNode {
   return segments
 }
 
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(query).matches : false,
+  )
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const mediaQuery = window.matchMedia(query)
+    const legacyMediaQuery = mediaQuery as MediaQueryList & {
+      addListener?: (listener: (event: MediaQueryListEvent) => void) => void
+      removeListener?: (listener: (event: MediaQueryListEvent) => void) => void
+    }
+    const handleChange = (event: MediaQueryListEvent) => {
+      setMatches(event.matches)
+    }
+
+    setMatches(mediaQuery.matches)
+
+    if ('addEventListener' in mediaQuery) {
+      mediaQuery.addEventListener('change', handleChange)
+
+      return () => {
+        mediaQuery.removeEventListener('change', handleChange)
+      }
+    }
+
+    legacyMediaQuery.addListener?.(handleChange)
+
+    return () => {
+      legacyMediaQuery.removeListener?.(handleChange)
+    }
+  }, [query])
+
+  return matches
+}
+
 function App() {
   const [phase, setPhase] = useState<Phase>('intro')
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0)
@@ -272,6 +311,8 @@ function App() {
   const economicProfile = describeEconomicProfile(userMapPosition.x)
   const opennessProfile = describeOpennessProfile(userMapPosition.y)
   const isFocusMode = phase === 'quiz' || phase === 'future'
+  const isCompactQuestionLayout = useMediaQuery('(max-width: 860px)')
+  const [isQuestionContextOpen, setIsQuestionContextOpen] = useState(false)
 
   useEffect(() => {
     matchesRef.current = matches
@@ -316,6 +357,15 @@ function App() {
       isCancelled = true
     }
   }, [canComputeResults, hasTrackedResultView, phase, resultRunId])
+
+  useEffect(() => {
+    if (!isCompactQuestionLayout) {
+      setIsQuestionContextOpen(true)
+      return
+    }
+
+    setIsQuestionContextOpen(false)
+  }, [activeQuestionIndex, isCompactQuestionLayout])
 
   const clearAnimationTimers = () => {
     if (previewTimerRef.current !== null) {
@@ -552,6 +602,84 @@ function App() {
   }
 
   const showGuideLayer = true
+  const questionContextContent = showGuideLayer ? (
+    <>
+      <article className="question-context-overview">
+        <div className="context-overview-block">
+          <span className="guide-summary-label">En simple</span>
+          <p>{activeQuestionPresentation.plainLanguage}</p>
+        </div>
+
+        <div className="context-overview-block">
+          <span className="guide-summary-label">Le nœud du débat</span>
+          <p>{activeQuestionPresentation.briefing.decisionFrame}</p>
+          <small>{activeQuestionPresentation.example}</small>
+        </div>
+      </article>
+
+      <section className="context-section-group">
+        <p className="context-section-kicker">Pour situer le sujet</p>
+        <div className="question-briefing-grid context-tiles-grid">
+          <article className="guide-panel">
+            <div className="guide-panel-header">
+              <strong>Exemple récent</strong>
+              <a
+                href={activeQuestionPresentation.recentExample.sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Source
+              </a>
+            </div>
+            <p>{activeQuestionPresentation.recentExample.title}</p>
+            <p>{activeQuestionPresentation.recentExample.context}</p>
+            <p>{activeQuestionPresentation.recentExample.impact}</p>
+          </article>
+
+          <article className="guide-panel">
+            <strong>Contexte actuel</strong>
+            <p>{activeQuestionPresentation.briefing.currentState}</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="context-section-group">
+        <p className="context-section-kicker">Repères utiles</p>
+        <div className="question-briefing-grid context-tiles-grid">
+          <article className="guide-panel">
+            <strong>Ce qui a déjà été tenté</strong>
+            <p>{activeQuestionPresentation.briefing.previousPolicies}</p>
+          </article>
+
+          <article className="guide-panel">
+            <strong>Pourquoi elle compte</strong>
+            <p>{activeQuestionPresentation.whySelected}</p>
+            <p>{activeQuestionPresentation.explainer}</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="context-section-group">
+        <p className="context-section-kicker">Données et repères</p>
+        <QuestionContextChart visual={activeQuestionPresentation.briefing.visual} />
+      </section>
+
+      <section className="context-section-group">
+        <p className="context-section-kicker">Pour aller plus loin</p>
+        <article className="guide-panel">
+          <ul className="source-link-list compact-sources">
+            {activeQuestionPresentation.briefing.sources.map((source) => (
+              <li key={source.url}>
+                <a href={source.url} target="_blank" rel="noreferrer">
+                  {source.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </section>
+    </>
+  ) : null
 
   const handleSaveAnonymousResults = async () => {
     try {
@@ -914,83 +1042,28 @@ function App() {
 
                   {showGuideLayer && (
                     <aside className="question-context-column">
-                      <p className="context-column-label">Contexte pour décider</p>
-                      <div className="question-context-scroll">
-                        <article className="question-context-overview">
-                          <div className="context-overview-block">
-                            <span className="guide-summary-label">En simple</span>
-                            <p>{activeQuestionPresentation.plainLanguage}</p>
-                          </div>
-
-                          <div className="context-overview-block">
-                            <span className="guide-summary-label">Le nœud du débat</span>
-                            <p>{activeQuestionPresentation.briefing.decisionFrame}</p>
-                            <small>{activeQuestionPresentation.example}</small>
-                          </div>
-                        </article>
-
-                        <section className="context-section-group">
-                          <p className="context-section-kicker">Pour situer le sujet</p>
-                          <div className="question-briefing-grid context-tiles-grid">
-                            <article className="guide-panel">
-                              <div className="guide-panel-header">
-                                <strong>Exemple récent</strong>
-                                <a
-                                  href={activeQuestionPresentation.recentExample.sourceUrl}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  Source
-                                </a>
-                              </div>
-                              <p>{activeQuestionPresentation.recentExample.title}</p>
-                              <p>{activeQuestionPresentation.recentExample.context}</p>
-                              <p>{activeQuestionPresentation.recentExample.impact}</p>
-                            </article>
-
-                            <article className="guide-panel">
-                              <strong>Contexte actuel</strong>
-                              <p>{activeQuestionPresentation.briefing.currentState}</p>
-                            </article>
-                          </div>
-                        </section>
-
-                        <section className="context-section-group">
-                          <p className="context-section-kicker">Repères utiles</p>
-                          <div className="question-briefing-grid context-tiles-grid">
-                            <article className="guide-panel">
-                              <strong>Ce qui a déjà été tenté</strong>
-                              <p>{activeQuestionPresentation.briefing.previousPolicies}</p>
-                            </article>
-
-                            <article className="guide-panel">
-                              <strong>Pourquoi elle compte</strong>
-                              <p>{activeQuestionPresentation.whySelected}</p>
-                              <p>{activeQuestionPresentation.explainer}</p>
-                            </article>
-                          </div>
-                        </section>
-
-                        <section className="context-section-group">
-                          <p className="context-section-kicker">Données et repères</p>
-                          <QuestionContextChart visual={activeQuestionPresentation.briefing.visual} />
-                        </section>
-
-                        <section className="context-section-group">
-                          <p className="context-section-kicker">Pour aller plus loin</p>
-                          <article className="guide-panel">
-                            <ul className="source-link-list compact-sources">
-                              {activeQuestionPresentation.briefing.sources.map((source) => (
-                                <li key={source.url}>
-                                  <a href={source.url} target="_blank" rel="noreferrer">
-                                    {source.label}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </article>
-                        </section>
-                      </div>
+                      {isCompactQuestionLayout ? (
+                        <details
+                          className="question-context-disclosure"
+                          open={isQuestionContextOpen}
+                          onToggle={(event) => setIsQuestionContextOpen(event.currentTarget.open)}
+                        >
+                          <summary>
+                            <div className="question-context-summary">
+                              <span className="context-column-label">Contexte pour décider</span>
+                              <span className="question-context-summary-text">
+                                Exemples, repères et données pour situer cette question.
+                              </span>
+                            </div>
+                          </summary>
+                          <div className="question-context-scroll">{questionContextContent}</div>
+                        </details>
+                      ) : (
+                        <>
+                          <p className="context-column-label">Contexte pour décider</p>
+                          <div className="question-context-scroll">{questionContextContent}</div>
+                        </>
+                      )}
                     </aside>
                   )}
                 </div>
