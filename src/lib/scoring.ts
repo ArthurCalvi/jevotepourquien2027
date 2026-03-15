@@ -4,7 +4,7 @@ import {
   type PartyProfile,
   type Stance,
   type Theme,
-} from '../data/content'
+} from '../data/content.js'
 
 export type ResponseMap = Record<string, Stance | null>
 export type PriorityMap = Record<string, boolean>

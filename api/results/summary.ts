@@ -1,10 +1,10 @@
 import {
   type PublicResultsSummary,
   validatePublicResultsSummary,
-} from '../../src/lib/resultsPersistence'
-import { sendJson, type ApiRequest, type ApiResponse } from '../_lib/http'
-import { isResultsStoreRpcError, resultsStoreRpc } from '../_lib/resultsStore'
-import { isAllowedOrigin } from '../_lib/security'
+} from '../../src/lib/resultsPersistence.js'
+import { sendJson, type ApiRequest, type ApiResponse } from '../_lib/http.js'
+import { isResultsStoreRpcError, resultsStoreRpc } from '../_lib/resultsStore.js'
+import { isAllowedOrigin } from '../_lib/security.js'
 
 export default async function handler(
   request: ApiRequest,

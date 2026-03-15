@@ -1,6 +1,6 @@
-import { getJsonBody, sendJson, type ApiRequest, type ApiResponse } from '../_lib/http'
-import { isResultsStoreRpcError, resultsStoreRpc } from '../_lib/resultsStore'
-import { getClientIp, getUserAgent, hashIdentifier, isAllowedOrigin } from '../_lib/security'
+import { getJsonBody, sendJson, type ApiRequest, type ApiResponse } from '../_lib/http.js'
+import { isResultsStoreRpcError, resultsStoreRpc } from '../_lib/resultsStore.js'
+import { getClientIp, getUserAgent, hashIdentifier, isAllowedOrigin } from '../_lib/security.js'
 
 function isValidResultRunId(value: unknown): value is string {
   return typeof value === 'string' && value.length >= 20 && value.length <= 120

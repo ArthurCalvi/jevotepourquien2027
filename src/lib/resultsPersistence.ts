@@ -1,5 +1,5 @@
-import { futureQuestions, partyProfiles, questions, type Stance } from '../data/content'
-import type { MapPosition, MatchResult, PriorityMap, ResponseMap } from './scoring'
+import { futureQuestions, partyProfiles, questions, type Stance } from '../data/content.js'
+import type { MapPosition, MatchResult, PriorityMap, ResponseMap } from './scoring.js'
 
 export const submissionSchemaVersion = '2026-03-15'
 
@@ -62,7 +62,7 @@ const stanceValues = new Set<number>([-2, -1, 0, 1, 2])
 const partyIdSet = new Set(partyProfiles.map((party) => party.id))
 const questionIdSet = new Set(questions.map((question) => question.id))
 const futureQuestionIdSet = new Set(futureQuestions.map((question) => question.id))
-const futureScenarioIdByQuestionId = new Map(
+const futureScenarioIdByQuestionId = new Map<string, Set<string>>(
   futureQuestions.map((question) => [
     question.id,
     new Set(question.scenarios.map((scenario) => scenario.id)),

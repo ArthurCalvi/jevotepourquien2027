@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
-import type { ApiRequest } from './http'
-import { getHeader } from './http'
+import type { ApiRequest } from './http.js'
+import { getHeader } from './http.js'
 
 function normalizeOrigin(origin: string) {
   return origin.replace(/\/$/, '')

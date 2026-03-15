@@ -2,10 +2,10 @@ import {
   type PublicResultsSummary,
   validatePublicResultsSummary,
   validateSubmissionPayload,
-} from '../../src/lib/resultsPersistence'
-import { getJsonBody, sendJson, type ApiRequest, type ApiResponse } from '../_lib/http'
-import { isResultsStoreRpcError, resultsStoreRpc } from '../_lib/resultsStore'
-import { getClientIp, getUserAgent, hashIdentifier, isAllowedOrigin } from '../_lib/security'
+} from '../../src/lib/resultsPersistence.js'
+import { getJsonBody, sendJson, type ApiRequest, type ApiResponse } from '../_lib/http.js'
+import { isResultsStoreRpcError, resultsStoreRpc } from '../_lib/resultsStore.js'
+import { getClientIp, getUserAgent, hashIdentifier, isAllowedOrigin } from '../_lib/security.js'
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) {

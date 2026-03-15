@@ -82,7 +82,7 @@ summary:focus-visible {
   overflow: hidden;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 40px 24px 48px;
+  padding: 28px 24px 40px;
 }
 
 .ambient {
@@ -119,8 +119,8 @@ summary:focus-visible {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 28px;
+  gap: 18px;
+  margin-bottom: 18px;
 }
 
 .topbar h1,
@@ -133,17 +133,17 @@ summary:focus-visible {
 }
 
 .topbar h1 {
-  margin: 8px 0 12px;
-  font-size: clamp(2.4rem, 5vw, 4.7rem);
-  line-height: 0.95;
-  max-width: 11ch;
+  margin: 4px 0 8px;
+  font-size: clamp(2.1rem, 4.2vw, 4rem);
+  line-height: 0.92;
+  max-width: 9ch;
 }
 
 .lead {
-  max-width: 70ch;
+  max-width: 62ch;
   margin: 0;
   color: var(--muted);
-  font-size: 1.02rem;
+  font-size: 0.96rem;
 }
 
 .eyebrow,
@@ -166,6 +166,10 @@ summary:focus-visible {
   gap: 12px;
 }
 
+.header-actions {
+  gap: 10px;
+}
+
 .primary-button,
 .secondary-button,
 .ghost-button {
@@ -177,7 +181,7 @@ summary:focus-visible {
 .primary-button {
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
   color: #fffaf5;
-  padding: 0.85rem 1.3rem;
+  padding: 0.78rem 1.2rem;
   box-shadow: 0 14px 30px rgba(204, 104, 66, 0.2);
 }
 
@@ -190,7 +194,7 @@ summary:focus-visible {
   background: rgba(255, 251, 244, 0.7);
   color: var(--ink);
   border-color: rgba(27, 39, 64, 0.18);
-  padding: 0.85rem 1.2rem;
+  padding: 0.78rem 1.1rem;
 }
 
 .secondary-button:hover,
@@ -675,8 +679,6 @@ summary:focus-visible {
 }
 
 .question-context-column {
-  position: sticky;
-  top: 18px;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 12px;
@@ -684,8 +686,8 @@ summary:focus-visible {
   padding-left: 22px;
   font-size: 0.95rem;
   padding-right: 6px;
-  height: calc(100vh - 36px);
-  overflow: hidden;
+  align-self: stretch;
+  min-height: 100%;
 }
 
 .context-column-label {
@@ -702,6 +704,9 @@ summary:focus-visible {
   align-content: start;
   gap: 18px;
   min-height: 0;
+  position: sticky;
+  top: 18px;
+  max-height: calc(100vh - 36px);
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-right: 6px;
