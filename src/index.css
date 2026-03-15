@@ -2116,15 +2116,20 @@ summary {
 }
 
 @media (max-width: 860px) {
-  .topbar,
   .card-header,
   .detail-top {
     flex-direction: column;
   }
 
+  .topbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
   .header-actions {
-    width: 100%;
-    justify-content: flex-start;
+    width: auto;
+    justify-content: flex-end;
     flex-wrap: wrap;
   }
 
@@ -2177,19 +2182,58 @@ summary {
 
 @media (max-width: 640px) {
   .app-shell {
-    padding: 24px 14px 36px;
+    padding: 18px 12px 30px;
   }
 
   .card,
   .hero-card,
   .question-card,
   .detail-card {
-    padding: 20px;
+    padding: 16px;
+    border-radius: 22px;
   }
 
   .quiz-shell .question-card,
   .future-shell .question-card {
     padding: 0;
+  }
+
+  .ambient {
+    opacity: 0.36;
+    width: 300px;
+    height: 300px;
+  }
+
+  .topbar {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .topbar-copy {
+    gap: 2px;
+  }
+
+  .topbar h1 {
+    max-width: none;
+    font-size: clamp(1.7rem, 8.8vw, 2.35rem);
+    line-height: 0.94;
+  }
+
+  .eyebrow,
+  .aside-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.09em;
+  }
+
+  .header-actions {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .header-actions > button {
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .question-context-column .guide-summary-tile,
@@ -2199,17 +2243,140 @@ summary {
     padding: 14px;
   }
 
+  .card-header {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .quiz-shell .card-header,
+  .future-shell .card-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
+  .progress-cluster {
+    align-items: flex-end;
+  }
+
+  .progress-cluster strong {
+    font-size: 1.35rem;
+  }
+
+  .progress-bar {
+    height: 8px;
+    margin-bottom: 12px;
+  }
+
+  .question-rail {
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+  }
+
+  .rail-button {
+    flex-basis: 52px;
+    min-height: 40px;
+    font-size: 0.88rem;
+  }
+
+  .question-card h3,
+  .question-main-column h3 {
+    font-size: clamp(1.18rem, 6.4vw, 1.7rem);
+    line-height: 1.02;
+  }
+
+  .question-stage {
+    gap: 12px;
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .question-stage-heading {
+    gap: 10px;
+  }
+
+  .question-stage-heading strong {
+    font-size: 0.95rem;
+  }
+
+  .question-stage-heading p {
+    font-size: 0.82rem;
+  }
+
+  .question-stage-index {
+    width: 26px;
+    height: 26px;
+    font-size: 0.88rem;
+  }
+
+  .policy-column,
+  .guide-panel,
+  .guide-summary-tile,
+  .question-visual-card {
+    border-radius: 16px;
+    padding: 14px;
+  }
+
+  .answer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .answer-grid .answer-button:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .answer-button {
+    min-height: 88px;
+    border-radius: 16px;
+    padding: 12px 12px 14px;
+  }
+
+  .answer-button span {
+    margin-bottom: 6px;
+    font-size: 0.94rem;
+  }
+
+  .answer-button small {
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .priority-toggle {
+    width: 100%;
+    text-align: center;
+    padding: 0.76rem 0.9rem;
+  }
+
   .question-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
+    gap: 10px;
   }
 
   .question-actions > * {
     width: 100%;
   }
 
+  .question-actions > .primary-button {
+    grid-column: 1 / -1;
+  }
+
   .inline-actions {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .future-scenario-panel {
+    margin-top: 18px;
+  }
+
+  .future-scenario-card,
+  .future-answer-card {
+    border-radius: 16px;
+    padding: 14px;
   }
 
   .result-card-grid,
