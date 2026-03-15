@@ -3,8 +3,8 @@ import {
   validatePublicResultsSummary,
 } from '../../src/lib/resultsPersistence'
 import { sendJson, type ApiRequest, type ApiResponse } from '../_lib/http'
+import { isResultsStoreRpcError, resultsStoreRpc } from '../_lib/resultsStore'
 import { isAllowedOrigin } from '../_lib/security'
-import { isSupabaseRpcError, supabaseRpc } from '../_lib/supabase'
 
 export default async function handler(
   request: ApiRequest,
@@ -25,7 +25,7 @@ export default async function handler(
 
   try {
     const summary = validatePublicResultsSummary(
-      await supabaseRpc<PublicResultsSummary>('get_quiz_public_summary'),
+      await resultsStoreRpc<PublicResultsSummary>('get_quiz_public_summary'),
     )
 
     return sendJson(
@@ -35,7 +35,7 @@ export default async function handler(
       'public, s-maxage=300, stale-while-revalidate=3600',
     )
   } catch (error) {
-    if (isSupabaseRpcError(error)) {
+    if (isResultsStoreRpcError(error)) {
       return sendJson(response, 502, {
         error: 'Impossible de charger les tendances pour le moment.',
       })

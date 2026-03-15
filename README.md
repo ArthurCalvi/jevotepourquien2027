@@ -20,7 +20,7 @@ The current version therefore codes party or bloc profiles from the latest offic
 - TypeScript
 - Vite 7
 - Vercel serverless functions for anonymous result writes and aggregate reads
-- Supabase for storage and aggregate queries
+- a private Postgres-backed results store for storage and aggregate queries
 
 ## Run locally
 
@@ -43,20 +43,21 @@ The frontend stays on Vite. Deployment is handled by Vercel with two same-origin
 - `POST /api/results/save` validates and stores an anonymized snapshot of the current result
 - `GET /api/results/summary` returns aggregate trends for the results page
 
-Supabase is only accessed from the Vercel backend. The browser never receives a service key.
+The private results store is only accessed from the Vercel backend. The browser never receives a write secret.
 The aggregate summary also exposes the share of completed result screens that were actually saved.
 
 ## Environment variables
 
 Copy `.env.example` and set:
 
-- `SUPABASE_SERVICE_ROLE_KEY`
+- `RESULTS_STORE_URL`
+- `RESULTS_STORE_SECRET`
 - `RATE_LIMIT_SALT`
 - `ALLOWED_ORIGINS` (optional, mainly useful for local cross-origin development)
 
 ## Database migration
 
-The SQL migration lives in `supabase/migrations/20260315_anonymous_results.sql`.
+The SQL migration lives in `database/migrations/20260315_anonymous_results.sql`.
 
 ## Refresh the source corpus
 

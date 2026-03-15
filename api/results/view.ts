@@ -1,6 +1,6 @@
 import { getJsonBody, sendJson, type ApiRequest, type ApiResponse } from '../_lib/http'
+import { isResultsStoreRpcError, resultsStoreRpc } from '../_lib/resultsStore'
 import { getClientIp, getUserAgent, hashIdentifier, isAllowedOrigin } from '../_lib/security'
-import { isSupabaseRpcError, supabaseRpc } from '../_lib/supabase'
 
 function isValidResultRunId(value: unknown): value is string {
   return typeof value === 'string' && value.length >= 20 && value.length <= 120
@@ -44,7 +44,7 @@ export default async function handler(
       throw new Error('Missing RATE_LIMIT_SALT.')
     }
 
-    await supabaseRpc('register_quiz_result_view', {
+    await resultsStoreRpc('register_quiz_result_view', {
       result_run_token_hash: hashIdentifier(body.resultRunId, salt),
       request_ip_hash: hashIdentifier(getClientIp(request), salt),
       request_user_agent_hash: hashIdentifier(getUserAgent(request), salt),
@@ -52,13 +52,13 @@ export default async function handler(
 
     return sendJson(response, 200, { tracked: true })
   } catch (error) {
-    if (isSupabaseRpcError(error)) {
+    if (isResultsStoreRpcError(error)) {
       const payload =
         typeof error.payload === 'object' && error.payload !== null ? error.payload : null
       const message =
         payload && 'message' in payload && typeof payload.message === 'string'
           ? payload.message
-          : 'Supabase request failed.'
+          : 'Results store request failed.'
 
       if (message === 'view_rate_limit_exceeded') {
         return sendJson(response, 429, {

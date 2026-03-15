@@ -4,8 +4,8 @@ import {
   validateSubmissionPayload,
 } from '../../src/lib/resultsPersistence'
 import { getJsonBody, sendJson, type ApiRequest, type ApiResponse } from '../_lib/http'
+import { isResultsStoreRpcError, resultsStoreRpc } from '../_lib/resultsStore'
 import { getClientIp, getUserAgent, hashIdentifier, isAllowedOrigin } from '../_lib/security'
-import { isSupabaseRpcError, supabaseRpc } from '../_lib/supabase'
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) {
@@ -56,7 +56,7 @@ export default async function handler(
       throw new Error('Missing RATE_LIMIT_SALT.')
     }
 
-    const saveResult = await supabaseRpc<{ submissionId: string }>('save_quiz_submission', {
+    const saveResult = await resultsStoreRpc<{ submissionId: string }>('save_quiz_submission', {
       submission: payload,
       answers: payload.responses,
       future_answers: payload.futureResponses,
@@ -66,7 +66,7 @@ export default async function handler(
     })
 
     const summary = validatePublicResultsSummary(
-      await supabaseRpc<PublicResultsSummary>('get_quiz_public_summary'),
+      await resultsStoreRpc<PublicResultsSummary>('get_quiz_public_summary'),
     )
 
     return sendJson(response, 200, {
@@ -74,13 +74,13 @@ export default async function handler(
       summary,
     })
   } catch (error) {
-    if (isSupabaseRpcError(error)) {
+    if (isResultsStoreRpcError(error)) {
       const payload =
         typeof error.payload === 'object' && error.payload !== null ? error.payload : null
       const message =
         payload && 'message' in payload && typeof payload.message === 'string'
           ? payload.message
-          : 'Supabase request failed.'
+          : 'Results store request failed.'
 
       if (message === 'rate_limit_exceeded') {
         return sendJson(response, 429, {
