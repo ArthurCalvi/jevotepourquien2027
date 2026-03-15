@@ -228,8 +228,6 @@ function renderGlossaryText(text: string, glossary: GlossaryTerm[]): ReactNode {
 }
 
 function App() {
-  const topbarDescription =
-    "Une version rigoureuse du même besoin: mesurer votre proximité programmatique avec les principaux partis français plutôt que vous pousser vers un candidat à partir de slogans ou de rumeurs."
   const [phase, setPhase] = useState<Phase>('intro')
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0)
   const [responses, setResponses] = useState(createBlankResponseMap)
@@ -274,7 +272,6 @@ function App() {
   const economicProfile = describeEconomicProfile(userMapPosition.x)
   const opennessProfile = describeOpennessProfile(userMapPosition.y)
   const isFocusMode = phase === 'quiz' || phase === 'future'
-  const isCompactTopbar = phase !== 'intro'
 
   useEffect(() => {
     matchesRef.current = matches
@@ -607,25 +604,10 @@ function App() {
       <div className="ambient ambient-left" />
       <div className="ambient ambient-right" />
 
-      <header className={`topbar${isCompactTopbar ? ' is-compact' : ''}`}>
+      <header className="topbar">
         <div className="topbar-copy">
-          {isCompactTopbar ? (
-            <div className="topbar-title-row">
-              <h1>Je vote pour qui en 2027 ?</h1>
-              <details className="topbar-help">
-                <summary>Cadre</summary>
-                <div className="topbar-help-card">
-                  <p>{topbarDescription}</p>
-                </div>
-              </details>
-            </div>
-          ) : (
-            <>
-              <p className="eyebrow">Comparateur de proximité politique</p>
-              <h1>Je vote pour qui en 2027 ?</h1>
-              <p className="lead">{topbarDescription}</p>
-            </>
-          )}
+          <p className="eyebrow">Comparateur de proximité politique</p>
+          <h1>Je vote pour qui en 2027 ?</h1>
         </div>
 
         <div className="header-actions">

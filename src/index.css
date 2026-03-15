@@ -117,26 +117,15 @@ summary:focus-visible {
 
 .topbar {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 18px;
-}
-
-.topbar.is-compact {
   align-items: center;
-  gap: 14px;
-  margin-bottom: 12px;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
 }
 
 .topbar-copy {
-  min-width: 0;
-}
-
-.topbar-title-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: grid;
+  gap: 4px;
   min-width: 0;
 }
 
@@ -150,25 +139,10 @@ summary:focus-visible {
 }
 
 .topbar h1 {
-  margin: 4px 0 8px;
-  font-size: clamp(2.1rem, 4.2vw, 4rem);
+  margin: 0;
+  max-width: 11ch;
+  font-size: clamp(2rem, 4vw, 3.4rem);
   line-height: 0.92;
-  max-width: 9ch;
-}
-
-.topbar.is-compact h1 {
-  margin: 0;
-  max-width: none;
-  font-size: clamp(1.45rem, 2.5vw, 2.05rem);
-  line-height: 0.96;
-  white-space: nowrap;
-}
-
-.lead {
-  max-width: 62ch;
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.96rem;
 }
 
 .eyebrow,
@@ -235,51 +209,6 @@ summary:focus-visible {
   background: transparent;
   color: var(--muted);
   padding: 0.72rem 0.96rem;
-}
-
-.topbar-help {
-  position: relative;
-  flex-shrink: 0;
-}
-
-.topbar-help summary {
-  list-style: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 34px;
-  padding: 0.5rem 0.82rem;
-  border-radius: 999px;
-  border: 1px solid rgba(27, 39, 64, 0.14);
-  background: rgba(255, 251, 244, 0.82);
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.topbar-help summary::-webkit-details-marker {
-  display: none;
-}
-
-.topbar-help-card {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  z-index: 4;
-  width: min(420px, 72vw);
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: 1px solid rgba(27, 39, 64, 0.12);
-  background: rgba(255, 251, 244, 0.98);
-  box-shadow: 0 20px 42px rgba(17, 32, 54, 0.14);
-}
-
-.topbar-help-card p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.5;
 }
 
 .secondary-button:disabled,
@@ -2199,14 +2128,6 @@ summary {
     flex-wrap: wrap;
   }
 
-  .topbar.is-compact {
-    align-items: flex-start;
-  }
-
-  .topbar.is-compact .topbar-title-row {
-    flex-wrap: wrap;
-  }
-
   .party-grid {
     grid-template-columns: 1fr;
   }
@@ -2241,10 +2162,6 @@ summary {
   .question-context-column {
     border-left: 0;
     padding-left: 0;
-  }
-
-  .topbar.is-compact h1 {
-    white-space: normal;
   }
 
   .question-notes {
