@@ -50,10 +50,9 @@ The aggregate summary also exposes the share of completed result screens that we
 
 Copy `.env.example` and set:
 
-- `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `RATE_LIMIT_SALT`
-- `ALLOWED_ORIGINS`
+- `ALLOWED_ORIGINS` (optional, mainly useful for local cross-origin development)
 
 ## Database migration
 

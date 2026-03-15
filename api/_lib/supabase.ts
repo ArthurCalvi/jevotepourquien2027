@@ -10,11 +10,13 @@ class SupabaseRpcError extends Error {
   }
 }
 
+const DEFAULT_SUPABASE_URL = 'https://rzolbuzdladtqihhxdjw.supabase.co'
+
 function getConfig() {
-  const url = process.env.SUPABASE_URL
+  const url = process.env.SUPABASE_URL || DEFAULT_SUPABASE_URL
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-  if (!url || !serviceKey) {
+  if (!serviceKey) {
     throw new Error('Missing Supabase server credentials.')
   }
 
