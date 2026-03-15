@@ -74,10 +74,12 @@ export function CommunityPanel({
       <div className="card-header">
         <div>
           <p className="eyebrow">Contribution anonyme</p>
-          <h3>Sauvegarder puis comparer</h3>
+          <h3>Débloquer les résultats collectifs</h3>
           <p className="supporting-copy">
-            Le serveur n’enregistre ni compte, ni email, ni texte libre. Il stocke uniquement
-            un instantané anonymisé de vos réponses et des agrégats utiles à la restitution.
+            Pour voir les résultats de l’ensemble des participants, vous devez accepter la
+            sauvegarde anonymisée de votre résultat. Le serveur n’enregistre ni compte, ni
+            email, ni texte libre: uniquement un instantané anonymisé utile aux statistiques
+            collectives.
           </p>
         </div>
 
@@ -100,7 +102,7 @@ export function CommunityPanel({
             >
               {saveStatus === 'saving'
                 ? 'Sauvegarde en cours...'
-                : 'Sauvegarder mes résultats anonymisés'}
+                : 'Accepter et sauvegarder mes résultats anonymisés'}
             </button>
           )}
         </div>
@@ -109,8 +111,8 @@ export function CommunityPanel({
       {saveStatus !== 'saved' && (
         <div className="community-note">
           <p className="muted-small">
-            La comparaison collective apparaît après sauvegarde, afin d’éviter de transformer le
-            site en simple page de consultation passive.
+            Sans sauvegarde anonymisée, les statistiques collectives restent masquées. Votre
+            contribution sert à alimenter le panel affiché en fin de parcours.
           </p>
         </div>
       )}
